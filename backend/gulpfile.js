@@ -51,8 +51,7 @@ fs.readdirSync('node_modules')
 // Create Webpack config file for the server-side code.
 var serverConfig = createConfig({
   entry: {
-    index: './src/index.js',
-    bot: './src/bot.js'
+    index: './src/index.js'
   },
   target: 'node',
   output: {

@@ -9,7 +9,7 @@
     "build": "gulp build",
     "watch": "gulp watch",
     "start-dev": "NODE_ENV=devlopment gulp run",
-    "start": "make dist && make run",
+    "start": "make run",
     "lint": "eslint src"
   },
   "author": "",
@@ -36,9 +36,15 @@
     "supertest": "1.0.1"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
     "express": "4.13.1",
-    "node-fetch": "^1.7.3",
+    "express-session": "^1.15.6",
     "gulp": "^3.9.0",
+    "jsonwebtoken": "^8.0.1",
+    "mongoose": "^4.11.13",
+    "node-fetch": "^1.7.3",
     "webpack": "^1.10.1"
   }
 }
