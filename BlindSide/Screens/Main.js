@@ -15,14 +15,14 @@ export class Main extends Component {
                         <TouchableOpacity
                             style={{backgroundColor: '#15b9ff', padding: 10, width: 175, borderRadius: 50}}
                         >
-                            <Button color='white' title="Adjust Shades" onPress={() => this.props.navigation.navigate('Percent')}/>
+                            <Button color='white' title="Adjust Shades" onPress={() => this.props.navigation('Percent')}/>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.buttons, {marginBottom: 20, justifyContent: 'flex-start'}]}>
                         <TouchableOpacity
                             style={{backgroundColor: '#15b9ff', padding: 10, width: 175, borderRadius: 50}}
                         >
-                            <Button color='white' title="Create an Alarm" onPress={() => this.props.navigation.navigate('Alarm')}/>
+                            <Button color='white' title="Create an Alarm" onPress={() => this.props.navigation('Alarm')}/>
                         </TouchableOpacity>
                     </View>
                 </View>
