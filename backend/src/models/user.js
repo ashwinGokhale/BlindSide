@@ -12,8 +12,11 @@ let UserSchema = new mongoose.Schema({
 	hash_password: {
 	  type: String,
 	  required: true
+	},
+	devices: {
+		type: Array
 	}
-  });
+});
 
 UserSchema.methods.comparePassword = function(password) {
 	return bcrypt.compareSync(password, this.hash_password);

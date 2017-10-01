@@ -51,7 +51,3 @@ export const loginRequired = (req, res, next) => {
 	else 
 		return res.status(401).json({ message: 'Unauthorized user!' });
 };
-
-export const proxy = (req, res) => {
-	res.json(req.body);
-}
