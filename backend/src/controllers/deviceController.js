@@ -9,36 +9,27 @@ export const registerDevice = (req, res) => {
 		res.status(400).send('All fields are required');
 	else {
 		// If user is already registered
-		Device.find().exec((err, device) => {
-			if (err){
-				console.error(err);
-				res.send(err);
-			}
-			else if(!device){
-				res.send(`Theres is already a device running on: ${req.body.link}`);
-			}
-			else {
-				let newDevice = new Device(req.body);
-				newDevice.save((err, dev) => {
-					if (err) 
-						return res.status(400).send({message: err});
-					else
-						return res.json(dev);
-				});
-			}
+		Device.findOneAndUpdate({}, req.body, {upsert:true}, (err, device) => {
+			if (err) return res.send(500, { error: err });
+
+			return res.json(req.body);
 		});
 	}
 };
 
 export const proxy = (req, res) => {
-	Device.find().exec((err, device) => {
+	Device.findOne().exec((err, device) => {
 		if (err){
 			console.error(err);
 			res.send(err);
 		}
-		else if(device)
-			axios.post(device.link, req.body).then(() => res.json(req.body));
 		
+		else if(device)
+			if (req.body.command == 'open')
+				axios.get(device.link+'/openBlind', req.body).then(() => res.json(req.body)).catch((error) => console.error(error));
+			else
+				axios.get(device.link+'/closeBlind', req.body).then(() => res.json(req.body)).catch((error) => console.error(error));
+	
 		else
 			res.send('No devices registered')
 	});

@@ -293,30 +293,28 @@
 	var registerDevice = function registerDevice(req, res) {
 		if (!req.body.link || !req.body.id) res.status(400).send('All fields are required');else {
 			// If user is already registered
-			_modelsDevice2['default'].find().exec(function (err, device) {
-				if (err) {
-					console.error(err);
-					res.send(err);
-				} else if (!device) {
-					res.send('Theres is already a device running on: ' + req.body.link);
-				} else {
-					var newDevice = new _modelsDevice2['default'](req.body);
-					newDevice.save(function (err, dev) {
-						if (err) return res.status(400).send({ message: err });else return res.json(dev);
-					});
-				}
+			_modelsDevice2['default'].findOneAndUpdate({}, req.body, { upsert: true }, function (err, device) {
+				if (err) return res.send(500, { error: err });
+
+				return res.json(req.body);
 			});
 		}
 	};
 
 	exports.registerDevice = registerDevice;
 	var proxy = function proxy(req, res) {
-		_modelsDevice2['default'].find().exec(function (err, device) {
+		_modelsDevice2['default'].findOne().exec(function (err, device) {
 			if (err) {
 				console.error(err);
 				res.send(err);
-			} else if (device) _axios2['default'].post(device.link, req.body).then(function () {
+			} else if (device) if (req.body.open) _axios2['default'].get(device.link + '/openBlind', req.body).then(function () {
 				return res.json(req.body);
+			})['catch'](function (error) {
+				return console.error(error);
+			});else _axios2['default'].get(device.link + '/closeBlind', req.body).then(function () {
+				return res.json(req.body);
+			})['catch'](function (error) {
+				return console.error(error);
 			});else res.send('No devices registered');
 		});
 	};
