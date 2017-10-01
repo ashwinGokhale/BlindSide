@@ -12,9 +12,6 @@ let UserSchema = new mongoose.Schema({
 	hash_password: {
 	  type: String,
 	  required: true
-	},
-	devices: {
-		type: Array
 	}
 });
 

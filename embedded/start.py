@@ -14,5 +14,6 @@ uri = r.json()['tunnels'][0]['public_url']
 
 id = uuid.uuid4()
 
-r = requests.post('', data={'url':uri, 'id':id})
+r = requests.post('https://secret-journey-73941.herokuapp.com/device/register', data={'link':uri, 'id':id})
 
+print(r)
