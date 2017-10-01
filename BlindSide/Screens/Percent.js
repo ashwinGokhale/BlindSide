@@ -19,24 +19,6 @@ export class Percent extends Component {
                         'Authorization': 'JWT ' + token
                     },
                 })
-                // fetch('https://secret-journey-73941.herokuapp.com/device/proxy', {
-                //     method: '',
-                //     headers: {
-                //         'Content-Type': 'application/x-www-form-urlencoded',
-                //         'Authorization': 'JWT ' + token
-                //     },
-                //     body: JSON.Stringify({
-                //         command: 'open',
-                //     })
-                // })
-                // .then((response) => response.json())
-                // .then((responseData) => {
-                //     console.log("Working")
-                // })
-                // .catch((error) => {
-                //     console.log("Something went wrong!");
-                // })
-                // .done();
             })
         }
     }
@@ -45,21 +27,13 @@ export class Percent extends Component {
         if (this.state.percent > 0){
             this.setState({ percent: this.state.percent - 10 });
             AsyncStorage.getItem('id_token').then((token) => {
-                fetch('https://secret-journey-73941.herokuapp.com/device/proxy', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.Stringify({
-                        command: 'close',
-                    })
+                axios.post('https://secret-journey-73941.herokuapp.com/device/proxy', {
+                    command: 'close',
+                }, {
+                    headers: {
+                        'Authorization': 'JWT ' + token
+                    },
                 })
-                .then((response) => response.json())
-                .then((responseData) => {
-                    console.log("Working")
-                })
-                .catch((error) => {
-                    console.log("Something went wrong!");
-                })
-                .done();
             })
         }
     }
