@@ -24,11 +24,12 @@ export const proxy = (req, res) => {
 			res.send(err);
 		}
 		
-		else if(device)
+		else if(device){
 			if (req.body.command == 'open')
 				axios.get(device.link+'/openBlind', req.body).then(() => res.json(req.body)).catch((error) => console.error(error));
 			else
 				axios.get(device.link+'/closeBlind', req.body).then(() => res.json(req.body)).catch((error) => console.error(error));
+		}
 	
 		else
 			res.send('No devices registered')

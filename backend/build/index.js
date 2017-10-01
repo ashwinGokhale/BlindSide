@@ -95,6 +95,10 @@
 		}
 	});
 
+	app.route('/').get(function (req, res) {
+		return res.send('Works');
+	});
+
 	app.route('/auth/register').post(_controllersUserController.register);
 
 	app.route('/auth/login').post(_controllersUserController.login);
@@ -195,6 +199,7 @@
 	exports.register = register;
 	var login = function login(req, res) {
 		_modelsUser2['default'].findOne({ email: req.body.email }, function (err, user) {
+
 			if (err) throw err;
 			if (!user || !user.comparePassword(req.body.password)) return res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
 
@@ -245,9 +250,6 @@
 		hash_password: {
 			type: String,
 			required: true
-		},
-		devices: {
-			type: Array
 		}
 	});
 
@@ -307,15 +309,17 @@
 			if (err) {
 				console.error(err);
 				res.send(err);
-			} else if (device) if (req.body.open) _axios2['default'].get(device.link + '/openBlind', req.body).then(function () {
-				return res.json(req.body);
-			})['catch'](function (error) {
-				return console.error(error);
-			});else _axios2['default'].get(device.link + '/closeBlind', req.body).then(function () {
-				return res.json(req.body);
-			})['catch'](function (error) {
-				return console.error(error);
-			});else res.send('No devices registered');
+			} else if (device) {
+				if (req.body.command == 'open') _axios2['default'].get(device.link + '/openBlind', req.body).then(function () {
+					return res.json(req.body);
+				})['catch'](function (error) {
+					return console.error(error);
+				});else _axios2['default'].get(device.link + '/closeBlind', req.body).then(function () {
+					return res.json(req.body);
+				})['catch'](function (error) {
+					return console.error(error);
+				});
+			} else res.send('No devices registered');
 		});
 	};
 	exports.proxy = proxy;

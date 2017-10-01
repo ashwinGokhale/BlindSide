@@ -28,7 +28,9 @@ app.use((req, res, next) => {
 	  req.user = undefined;
 	  next();
 	}
-  });
+	});
+	
+app.route('/').get((req, res) => res.send('Works'))
 
 app.route('/auth/register').post(register);
 
@@ -36,6 +38,6 @@ app.route('/auth/login').post(login);
 
 app.route('/device/register').post(registerDevice);
 
-app.route('/device/proxy').post(loginRequired, proxy)
+app.route('/device/proxy').post(loginRequired, proxy);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
