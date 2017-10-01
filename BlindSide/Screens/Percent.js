@@ -1,21 +1,67 @@
 import React, { Component } from 'react';
-import { AppRegistry, View, StyleSheet, Button, Image, TouchableOpacity, Text } from 'react-native';
+import { AppRegistry, View, StyleSheet, Button, Image, TouchableOpacity, Text, AsyncStorage } from 'react-native';
+import axios from 'axios'
 
 export class Percent extends Component {
     state = {
         'percent': 0,
+        'open': false,
     }
 
     increasePercent = () => {
         if (this.state.percent < 100){
             this.setState({ percent: this.state.percent + 10 });
-
+            AsyncStorage.getItem('id_token').then((token) => {
+                axios.post('https://secret-journey-73941.herokuapp.com/device/proxy', {
+                    command: 'open',
+                }, {
+                    headers: {
+                        'Authorization': 'JWT ' + token
+                    },
+                })
+                // fetch('https://secret-journey-73941.herokuapp.com/device/proxy', {
+                //     method: '',
+                //     headers: {
+                //         'Content-Type': 'application/x-www-form-urlencoded',
+                //         'Authorization': 'JWT ' + token
+                //     },
+                //     body: JSON.Stringify({
+                //         command: 'open',
+                //     })
+                // })
+                // .then((response) => response.json())
+                // .then((responseData) => {
+                //     console.log("Working")
+                // })
+                // .catch((error) => {
+                //     console.log("Something went wrong!");
+                // })
+                // .done();
+            })
         }
     }
 
     decreasePercent = () => {
-        if (this.state.percent > 0)
+        if (this.state.percent > 0){
             this.setState({ percent: this.state.percent - 10 });
+            AsyncStorage.getItem('id_token').then((token) => {
+                fetch('https://secret-journey-73941.herokuapp.com/device/proxy', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.Stringify({
+                        command: 'close',
+                    })
+                })
+                .then((response) => response.json())
+                .then((responseData) => {
+                    console.log("Working")
+                })
+                .catch((error) => {
+                    console.log("Something went wrong!");
+                })
+                .done();
+            })
+        }
     }
 
     render() {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Alert, Image, View, StyleSheet, Button, Text, StatusBar } from 'react-native';
+import { AppRegistry, Alert, Image, View, StyleSheet, Button, Text, StatusBar, AsyncStorage } from 'react-native';
 import { StackNavigator } from 'react-navigation'
 import { Login } from './Screens/Login.js';
 import { Signup } from './Screens/Signup.js';
@@ -9,31 +9,40 @@ import {Percent} from './Screens/Percent.js'
 import {Alarm} from './Screens/Alarm.js'
 
 class App extends Component {
+    constructor() {
+        super();
+        this.state = {
+            hasToken: false,
+            isLoaded: false,
+        }
+    }
 
     componentDidMount() {
         StatusBar.setHidden(true);
+        AsyncStorage.getItem('id_token').then((token) => {
+            if (token)
+                this.setState({ hasToken: true, isLoaded: true })
+        });
     }
 
     render() {
+        // console.log(this.state)
         const { navigate } = this.props.navigation;
-        return (
-            <View style={styles.container}>
-                <Login navigation={navigate}/>
-            </View>
-        );
+        if (!this.state.hasToken && !this.state.isLoaded){
+            return (
+                <View style={styles.container}>
+                    <Login navigation={navigate}/>
+                </View>
+            )
+        }
+        else {
+            return (
+                <Main navigation={navigate}/>
+            )
+        }
     }
 }
-// <View>
-//     <Button
-//         onPress={() => navigate('Login')}
-//         title="Log In"
-//     />
-// </View>
-// <View>
-//     <Button
-//         onPress={() => navigate('Signup')}
-//         title="Sign Up" />
-// </View>
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
