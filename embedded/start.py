@@ -1,3 +1,18 @@
-from urllib2 import urlopen
-ip = urlopen('http://ip.42.pl/raw').read()
-print ip
+import os
+import sys
+import requests
+import time
+import uuid
+
+os.system("./ngrok http 8080 -log stdout &")
+
+time.sleep(1)
+
+r = requests.get('http://127.0.0.1:4040/api/tunnels')
+
+uri = r.json()['tunnels'][0]['public_url']
+
+id = uuid.uuid4()
+
+r = requests.post('', data={'url':uri, 'id':id})
+

@@ -6,7 +6,7 @@ echo 28 > export
 
 cd /home/linaro/boilermake/embedded
 
-python start.py
-
 export FLASK_APP=server.py
-flask run
+flask run --host=0.0.0.0 --port=8080 &
+
+python start.py
