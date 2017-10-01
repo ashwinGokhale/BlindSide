@@ -16,24 +16,24 @@ def get_data():
 
 @app.route("/openBlind")
 def open_blind():
-    for i in range(1, 2048):
+    for i in range(1, 512):
         os.system("sh forward.sh")
     return 'success'
 
 @app.route("/closeBlind")
 def close_blind():
-    for i in range(1, 2048):
+    for i in range(1, 512):
         os.system("sh backward.sh")
     return 'success'
 
 @app.route("/openFull")
 def open_full():
-    for i in range(1, 10240):
+    for i in range(1, 2048):
         os.system("sh forward.sh")
     return 'success'
 
 @app.route("/closeFull")
 def close_full():
-    for i in range(1, 10240):
+    for i in range(1, 2048):
         os.system("sh backward.sh")
     return 'success'
