@@ -26,7 +26,7 @@ cd gpio36
 echo 0 > value
 cd ..
 
-sleep 0.005
+sleep 0.001
 
 cd gpio28
 echo 0 > value
@@ -41,7 +41,7 @@ cd gpio36
 echo 0 > value
 cd ..
 
-sleep 0.005
+sleep 0.001
 
 cd gpio28
 echo 0 > value
@@ -56,7 +56,7 @@ cd gpio36
 echo 1 > value
 cd ..
 
-sleep 0.005
+sleep 0.001
 
 cd gpio28
 echo 1 > value
@@ -71,4 +71,4 @@ cd gpio36
 echo 1 > value
 cd ..
 
-sleep 0.005
+sleep 0.001
